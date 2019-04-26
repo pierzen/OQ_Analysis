@@ -4,6 +4,8 @@ OpenStreetMap Quality Analysis Tools
 
 This project was started in 2018 while [Potentiel 3.0](http://potentiel3-0.org/index.php/en/) and [OSM-CD](https://openstreetmap.cd/)  collaborated to support the Kinshasa OpenCities project and Blog Posts have been published on the [OpenDatalab-RDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md).
 
+Warning Indicators for Irregular Building forms and Topological errors are produced.  Summary statistics from these indicators let Monitor a territory, a mapping project or individual contributors. While Ratios of irregular Forms are often less then 5% for an area, reports of areas / projects  with Irregular forms Ratios exceding 60% of total buildings did alert about revising / improving the quality of edits for the area.
+
 The prerequisite to use the scripts presented in this repository is to install a PostgreSQL / PostGIS database with the Osmosis PgSnapshot Database and import OSM files.
 
 ## PostGIS OSM Database with Osmosis PgSnapshot Schema
