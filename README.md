@@ -19,4 +19,7 @@ See [postgis_load_with_osmosis_schema.md](postgis_load_with_osmosis_schema.md) f
 ## Scripts 
 
 - [OQ_Building_Analysis.sql](https://github.com/pierzen/OQ_Analysis/blob/master/script/OQ_Building_Analysis.sql)
- Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles ( see [Documentation](docum/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)).
+ Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles.
+- [OQ_Topology_Intersect_Analysis.sql](https://github.com/pierzen/OQ_Analysis/blob/master/script/OQ_Topology_Intersect_Analysis.sql) Topological Analysis detects Polygons Intersects.
+
+*See [Documentation](docum/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md).*
