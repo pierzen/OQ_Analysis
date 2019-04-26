@@ -10,7 +10,7 @@ The prerequisite to use the scripts presented in this repository is to install a
 
 PostGIS Spatial Analysis can be done for the Planet OSM, or simply a region or even specific features such as buildings extracted from an Overpass query for a specific ( BBOX - datetime). 
 [Osmosis](https://wiki.openstreetmap.org/wiki/Osmosis) 
-PgSnapshot Schema is a simplified way to import OSM data into PostGIS for analyssis. 
+PgSnapshot Schema is a simplified way to import OSM data into PostGIS for analysis. 
 
 See [postgis_load_with_osmosis_schema.md](postgis_load_with_osmosis_schema.md) for informations how to create a PostGIS database with the Osmosis PgSnapshot Schema and load OSM data. 
 
