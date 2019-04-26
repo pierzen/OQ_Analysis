@@ -1,5 +1,6 @@
 # OQ_Analysis
-OpenStreetMap Quality Analysis Tools ![](https://github.com/pierzen/OQ_Analysis/blob/master/img/OQi_132.png) 
+OpenStreetMap Quality Analysis Tools 
+<img align="right" width="132" height="132" src="img/OQi_132.png">
 
 This project was started in 2018 while [Potentiel 3.0](http://potentiel3-0.org/index.php/en/) and [OSM-CD](https://openstreetmap.cd/)  collaborated to support the Kinshasa OpenCities project and Blog Posts have been published on the [OpenDatalab-RDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md).
 
