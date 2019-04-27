@@ -1,26 +1,26 @@
 
-# OQ_Building_Analysis - Buildings Topological evaluation and Form analysis
+## OQ_Building_Analysis - Buildings Topological evaluation and Form analysis
 
 [OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
+This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
+
+ 
 Two types of analysis are performed over each building polygon.
 1. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
 2. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
 
 For the description of variables, see [OQ_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
 
-**OSM ways_topology Table**
-( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
+**SQL Query**
+    	-- public.OQ_Analysis_Table_Ways_Topology(_schema text,_date_extract)
+	SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
+
+**Output: OSM ways_topology Table** ( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
 
 This file contains Geometry evaluation reports by OSM id for each building in the ways table. Records are also added to report Topological errors identification. In this case, 
 - id refers to the building analyzed
 - id_b refers to a second polygon (either building or other feature) in conflict with the id building.
-
-This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
-
-    SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
- 
-The script is used inside a PostgreSQL-PostGIS Select command and returns the Eval Json data type with various keys fo analysis variables.
 
  **OSM database query using OQ_Building_Analysis Function:**
  
