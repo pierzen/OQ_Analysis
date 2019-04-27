@@ -1,6 +1,6 @@
 # OQ_Analysis Variables Documentation
 OpenStreetMap Quality Analysis Tools 
-<img align="right" width="132" height="132" src="img/OQi_132.png">
+<img align="right" width="132" height="132" src="../img/OQi_132.png">
 
 
 **TANGLE** Classification of angles / geometries based on degree tolerance vs Angles analysed
