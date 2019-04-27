@@ -1,44 +1,33 @@
+
 # OQ_Building_Analysis - Buildings Topological evaluation and Form analysis
 
+[OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags. to the schema in parallel to table ways.
+
 Two types of analysis are performed over each building polygon.
-1. Topological analysis indicates invalid and open polygon, overlaps, self-overlap
-2. Form Analysis classifies each polygon and individual angles for the following categories
+1. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
+2. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
 
--  R, RR  Regular and quasi Regular (ie. silos, huts etc with constant angles) with tolerance +- 2, 5
--  Q, QQ, QQQ  Orthogonal (90, 270) with tolerance +- 2, 5 and 10 degrees
--  D, DD	  Straigth line (180 deg) with tolerance +- 2, 5
--  H, HH (45, 135, 225 and 315) with tolerance +- 2, 5
--  Ir Irregular angles (other then R, Q, D and H) 
+For the description of variables, see [OQ_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
 
-The script is used inside a PostgreSQL-PostGIS Select command and returns the Eval Json data type with various keys fo analysis variables.
-    
-**The Eval Json list contains the following keys:values:** 
-- grp_tag: building or other
-- flag = 0 , regular polygon
-- flag = 1 , Irregular forms and Invalid topology
-- type_polygon prefix = FB_ flag = 1
-- nb_points: polygon number of points
-- type_geom: Polygon classification 
-	-- reg, rreg, ireg
-- poly_types_angle: summary of angle types in the polygone (example "q-qq-ir")
-- type_polygon":  
-- nb_angles: number of angles
-- angle_list: list each angle in the polygon 
-- type_angle_list: liste each angle category
 
-**OSM ways_topology for ways table Warnings and Errors**
+**OSM ways_topology Table**
+( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
+
+This file contains Geometry evaluation reports by OSM id for each building in the ways table. Records are also added to report Topological errors identification. In this case, 
+- id refers to the building analyzed
+- id_b refers to a second polygon (either building or other feature) in conflict with the id building.
 
 This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
 
     SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
  
-**ways_topology** 	( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
-- id   : OSM id of the polygon
-- id_b : OSM id of the second polygon for polygons superpositions
-- teval : FB (Geometry form warning),  XB-XO Topological Errors
-- eval :  Json list with various metrics to analyse the polygon
+The script is used inside a PostgreSQL-PostGIS Select command and returns the Eval Json data type with various keys fo analysis variables.
 
  **OSM database query using OQ_Building_Analysis Function:**
+ 
+ [OQ_Building_Analysis.sql](script/OQ_Building_Analysis.sql) is called by 
+ [OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql)
+ but can also be run independtly like in the example below.
  
     CREATE temporary table temp_buildings AS 
     SELECT id, tags, 
