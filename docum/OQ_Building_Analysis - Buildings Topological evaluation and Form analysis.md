@@ -1,14 +1,13 @@
 
 # OQ_Building_Analysis - Buildings Topological evaluation and Form analysis
 
-[OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags. to the schema in parallel to table ways.
+[OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
 Two types of analysis are performed over each building polygon.
 1. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
 2. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
 
 For the description of variables, see [OQ_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
-
 
 **OSM ways_topology Table**
 ( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
