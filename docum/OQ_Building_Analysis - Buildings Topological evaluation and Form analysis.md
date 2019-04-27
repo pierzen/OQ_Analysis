@@ -29,13 +29,14 @@ The script is used inside a PostgreSQL-PostGIS Select command and returns the Ev
 **OSM ways_topology for ways table Warnings and Errors**
 
 This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
-- id   : OSM id of the polygon
-- id_b : OSM id of the second polygon for polygons superpositions
 
     SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
-    -- reads myosm_extract_1.ways and creates myosm_extract_1.ways_topology
-    -- 	( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
-
+ 
+**ways_topology** 	( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
+- id   : OSM id of the polygon
+- id_b : OSM id of the second polygon for polygons superpositions
+- teval : FB (Geometry form warning),  XB-XO Topological Errors
+- eval :  Json list with various metrics to analyse the polygon
 
  **OSM database query using OQ_Building_Analysis Function:**
  
