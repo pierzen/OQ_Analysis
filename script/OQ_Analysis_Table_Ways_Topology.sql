@@ -33,44 +33,24 @@ BEGIN
 	cmd='WITH form as 
 	( SELECT id, 0 as id_b,	
 	 ' || $$	CASE
-		WHEN  exist(tags, 'building')
+		WHEN (tags ?| array['building', 'landuse', 'leisure', 'natural', 'man_made'])
 		AND (
-			linestring is null OR ST_NPoints(linestring)< 4 OR ST_IsClosed(linestring) is false
+			ST_NPoints(linestring)< 4 OR ST_IsClosed(linestring) is false
 		)
-		then format('''{ "grptag":"%s", "flag": "1", "npoints": "%s", "type_polygon": "FB_v", "nb_angles": 0,
+		then format('''{ "grptag":"%s", "flag": "1", "npoints": "%s", "type_polygon": "Open", "nb_angles": 0,
 					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'building', ST_NPoints(linestring))::json
-		WHEN exist(tags, 'building')
+		WHEN (tags ?| array['building', 'landuse', 'leisure', 'natural', 'man_made'])
 		AND (
 			GeometryType(linestring) not in ( 'LINESTRING', 'POLYGON')
 			OR ST_IsValid(ST_Polygon(linestring, 4326)) is false
 		)
-		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "FB_invalid", "nb_angles": 0,
-					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'building', ST_NPoints(linestring))::json
-		WHEN
-		(exist(tags, 'landuse') OR exist(tags, 'leisure')
-				 or  exist(tags, 'natural')  or exist(tags, 'man_made')
-		)
-		AND
-		(ST_NPoints(linestring)< 4 OR ST_IsClosed(linestring) is false
-		)
-		then format('''{ "grptag":"%s", "flag": "1", "npoints": "%s", "type_polygon": "FO_v", "nb_angles": 0,
-					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'other', ST_NPoints(linestring))::json
-		WHEN
-		(exist(tags, 'landuse') OR exist(tags, 'leisure')
-				 or  exist(tags, 'natural')  or exist(tags, 'man_made')
-		)
-		AND
-		(
-			GeometryType(linestring) not in ( 'LINESTRING', 'POLYGON')
-			OR ST_IsValid(ST_Polygon(linestring, 4326)) is false
-		)
-		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "FO_invalid", "nb_angles": 0,
+		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "Invalid", "nb_angles": 0,
 					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'building', ST_NPoints(linestring))::json
 		WHEN exist(tags, 'area')
 		AND NOT (tags ?| array['building', 'highway', 'waterway',
 			'landuse', 'natural', 'man_made', 'leisure',
 			'office', 'craft', 'government', 'aeroway', 'railway'])
-		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "FA_area", "nb_angles": 0,
+		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "Area", "nb_angles": 0,
 					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'area', ST_NPoints(linestring))::json
 		ELSE public.OQ_Building_Analysis(id, linestring, tags)
 		END as eval
@@ -95,7 +75,7 @@ BEGIN
 	$$ || format(' insert into %1$s.ways_topology (id, id_b, teval, eval) ', _schema, _date_extract) || $$ 
 	select id, id_b, 
 	CASE 
-		WHEN btrim((eval->>'type_geom'), ' ') ~* ('ireg|rreg|qqq|qq|hh|dd|rr') then 'FB'
+		WHEN btrim((eval->>'type_geom'), ' ') ~* ('ir|rr|qqq|qq|hh|dd|rr') then 'FB'
 		ELSE ''
 	END	 AS teval,
 	eval from form
@@ -112,6 +92,10 @@ BEGIN
 	EXECUTE cmd;
 
 	RAISE INFO '% OQ_Analysis_Table_Ways_Topology Function completed, nb_recs=%',  to_char(current_timestamp, 'hh24:mi:ss'), nb_recs;
+	--cmd = format('SELECT count(*)  INTO nb_recs FROM %1$s.ways_topology;', _schema);
+	--QUERY EXECUTE cmd into nb_recs;
+	--FOR nb_recs in EXECUTE cmd 
+	--RETURN nb_recs;
 	RETURN;
 END
 $PROC$;
