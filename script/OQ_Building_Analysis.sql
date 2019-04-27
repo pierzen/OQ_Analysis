@@ -1,4 +1,3 @@
-
 CREATE OR REPLACE FUNCTION public.OQ_Building_Analysis(id bigint, linestring geometry, 
 	tags hstore default '"building" => "multipolygon", "QA" => "oq_polygon_ortho"') 
 RETURNS json AS $PROC$
@@ -91,10 +90,6 @@ DECLARE
 	thh int;
 	td int;
 	tdd int;
-	ts int;
-	t2m2 int;
-	tv int;
-	tinvalid int;
 	iflag int;
 	poly_types_angle text;
 	type_geom text;
@@ -165,11 +160,11 @@ BEGIN
 	END IF;
 
 	IF (ST_NPoints(linestring)< 4 OR ST_IsClosed(linestring) is false)
-	THEN return format('{ "grptag":"%s", "flag": "1", "npoints": "%s", "type_polygon": "%s_v", "nb_angles": 0,
-				"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }', grptag, ST_NPoints(linestring), sgrptag)::json;
+	THEN return format('{ "grptag":"%s", "flag": "1", "npoints": "%s", "type_polygon": "Open", "nb_angles": 0,
+				"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }', grptag, ST_NPoints(linestring))::json;
 	ELSIF ST_NPoints(linestring)> 3 and ST_IsValid(ST_Polygon(linestring, 4326)) is false
-	THEN return format('{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "%s_invalid", "nb_angles": 0,
-				"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }', grptag, ST_NPoints(linestring), sgrptag)::json;
+	THEN return format('{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "Invalid", "nb_angles": 0,
+				"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }', grptag, ST_NPoints(linestring))::json;
 	ELSE
 		IF ST_IsClosed(linestring) = False OR ST_IsValid(ST_Polygon(linestring, 4326)) is false
 		THEN polygon=null;
@@ -251,10 +246,6 @@ BEGIN
 		tqqq=0;
 		td=0;
 		tdd=0;
-		t2m2=0;
-		ts=0;
-		tv=0;
-		tinvalid=0;
 		FOR k IN angle_deb..nb_points_m 
 		LOOP
 			IF k=nb_points_m THEN l=angle_end;
@@ -302,27 +293,23 @@ BEGIN
 		IF (ST_IsClosed(linestring)= false OR nb_points<4)
 			and (exist(tags, 'building') or exist(tags, 'landuse') OR exist(tags, 'leisure')
 			 or  exist(tags, 'natural')  or exist(tags, 'man_made'))
-		THEN type_polygon=format('%s_v',sgrptag);
+		THEN type_polygon='Open';
 		ELSIF (nb_points=4)  
 			 and (exist(tags, 'building') or exist(tags, 'landuse') OR exist(tags, 'leisure')
 			 or   exist(tags, 'natural')  or exist(tags, 'man_made'))
-		THEN type_polygon=format('%s_s',sgrptag);
+		THEN type_polygon=format('Small');
 		ELSIF ST_isvalid(polygon)=true and ST_Area(polygon::geography)<2.0
-		THEN type_polygon=format('%s_2m2',sgrptag);
-		ELSIF tv > 0 THEN type_polygon= format('%s_v',sgrptag);
-		ELSIF t2m2 > 0 THEN type_polygon=format('%s_2m2',sgrptag);
-		ELSIF ts > 0 THEN type_polygon=format('%s_s',sgrptag);
+		THEN type_polygon=format('Micro');
 		elsif ((th+tq+tr)>4) and (tq+tr+th+td) = nb_points_m then type_polygon='r';
 		elsif grptag<>'building' then type_polygon='nd';
 		-- flag building polygon only
-		elsif tir > 0 then type_polygon = 'FB_irreg';
-		elsif ((th+tq+tr+thh+tqq+trr)>4) and ((th+tq+tr+thh+tqq+tqqq+td+tdd) = nb_points_m)
-		then type_polygon = 'FB_rr';
-		elsif ((th+tq+tr+thh+tqq+tqqq+trr)>4) and ((th+tq+tr+thh+tqq+tqqq+trr+td+tdd) = nb_points_m)
-		then type_polygon = 'FB_rrr';
-		elsif ((th+tq+tr+thh+tqq+tqqq+trr+tir)>4) and ((th+tq+tr+thh+tqq+tqqq+trr+td+tdd+tir) = nb_points_m)
-		then type_polygon = 'FB_irreg';
-		else type_polygon='nd';
+		elsif tir > 0 then type_polygon = 'ir';
+		elsif tqqq> 0 then type_polygon = 'rrr';
+		elsif (thh+tqq+trr+tdd)> 0
+		then type_polygon = 'rr';
+		elsif (th+tq+tr)>0 
+		then type_polygon = 'r';
+		else type_polygon='-nd-';
 		END IF;
 
 		poly_types_angle='';
@@ -347,15 +334,13 @@ BEGIN
 		poly_types_angle=ltrim(poly_types_angle,'-');
 		-- type_geom tqqq - th - thh distinct
 		CASE
-			WHEN type_polygon='' THEN type_geom:='';
-			WHEN (tq+tr)>0 and (tqq+tqqq+trr+th+thh+tdd)=0 and tir=0 THEN type_geom:='  reg';
-			WHEN (tq+tr+th)>0 and (tqq+tqqq+trr+thh+tdd)=0 and tir=0 THEN type_geom:='  reg-h';
-			WHEN (tq+tr)>0 and (tqq+tqqq+trr+tdd)=0 and tir>0 THEN type_geom:='  reg-ireg';
-			WHEN (tq+tr)=0 and (tqq+trr+tdd)=0 and tir>0 THEN type_geom:='ireg';
-			WHEN (tqq+trr+tdd)>0 and (tqqq+thh)=0 and tir=0 THEN type_geom:=' rreg';
-			WHEN (tqq+tqqq+trr+tdd)>0 and thh=0 and tir=0 THEN type_geom:=' rreg-qqq';
-			WHEN (tqq+tqqq+trr+thh+tdd)>0 and tir=0 THEN type_geom:=' rreg-hh';
-			WHEN (tqq+tqqq+trr+tdd)>0 and tir>0 THEN type_geom:='rreg-ireg';
+			WHEN (tq+tr+th)>0 and (tqq+tqqq+trr+thh+tdd)=0 and tir=0 THEN type_geom:='  r';
+			WHEN (tqq+trr+thh+tdd)>0 and tqqq=0 and tir=0 THEN type_geom:=' rr';
+			WHEN tqqq>0 and tir=0 THEN type_geom:=' rrr';
+			WHEN (tq+tr+th)>0 and (tqq+tqqq+trr+thh+tdd)=0 and tir>0 THEN type_geom:='  r-ir';
+			WHEN (tqq+trr+thh+tdd)>0 and tqqq=0 and tir>0 THEN type_geom:=' rr-ir';
+			WHEN tqqq>0 and tir>0 THEN type_geom:='rrr-ir';
+			WHEN tir>0 THEN type_geom:='ir';
 			ELSE type_geom:='-nd-';
 		END CASE;
 		IF ltrim(type_geom) in ('','reg') then iflag=0;
