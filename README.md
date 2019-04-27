@@ -18,6 +18,8 @@ The prerequisite to use the scripts presented in this repository is to install a
 
 *See [Documentation](docum/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md).*
 
+**Type of problems detected**
+![](img/OQ-Analysis-Detects-Geometry-problems.png)
 
 [GNU General Public License v3.0](LICENSE)
 
