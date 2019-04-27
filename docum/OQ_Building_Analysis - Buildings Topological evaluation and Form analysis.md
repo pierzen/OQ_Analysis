@@ -13,11 +13,23 @@ Two types of analysis are performed over each building polygon.
 For the description of variables, see [OQ_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
 
 **SQL Query**
+
     	-- public.OQ_Analysis_Table_Ways_Topology(_schema text,_date_extract)
 	SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
 
 **Output: OSM ways_topology Table** ( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
 
+    Geometry: id=xxx, id_b=0, tags={tag list}, teval='FB', eval={ "grp_tag":"other", "flag":"1",  
+      "nb_points": "17", "type_geom": "rreg-ireg", "poly_types_angle": "q-qq-ir", "type_polygon": 'FB_irreg',  
+      "nb_angles": 16, 
+      "angle_list": "{89.7,90.3,89.5,89.6,89.4,89.3,89.6,90.3,89.6,89.6,73.3,73.6,85.1,88.5,93.7,89.9,89.7}",
+      "type_angle_list": "{q,q,q,q,q,q,q,q,q,q,ir,ir,qq,q,qq,q}"}
+	
+    Topology: id=xxx, id_b=yyyy, tags={tag list}, teval='XB', eval={  "flag":"1", 
+      "grp_tag":"building", "grp_tag_b":"building" } 
+    Topology: id=xxx, id_b=zzzz, tags={tag list}, teval='XO', eval={  "flag":"1", 
+      "grp_tag":"building", "grp_tag_b":"amenity" } 
+	
 This file contains Geometry evaluation reports by OSM id for each building in the ways table. Records are also added to report Topological errors identification. In this case, 
 - id refers to the building analyzed
 - id_b refers to a second polygon (either building or other feature) in conflict with the id building.
