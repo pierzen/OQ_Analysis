@@ -10,10 +10,10 @@ DECLARE
 		source_overlaps='
 		select a.id as id, b.id as id_b, b.tags, 
 		a.linestring as linestring_a, b.linestring as linestring_b,
-		CASE WHEN exist(b.tags, ''building'') 
-			THEN ''XO''
-			WHEN exist(b.tags, ''building'')=False
+		CASE WHEN exist(b.tags, ''building'')=True 
 			THEN ''XB''
+			WHEN exist(b.tags, ''building'')=False
+			THEN ''XO''
 		END AS teval,
 		CASE
 			when exist(b.tags, ''highway'') then ''highway''
@@ -71,7 +71,7 @@ DECLARE
 		LOOP
 			RETURN QUERY
 			select ww.id, ww.id_b, ww.teval, 
-			format('{ "flag": "1", "grptag": "building", "grptag_b": "%s" }', ww.grptagb)::jsonb as eval
+			format('{ "flag": "1", "grptag": "building", "grptag_b": "%s" }', ww.grptagb)::jsonb as eval;
 		END LOOP;
 	 END
 $PROC$ LANGUAGE plpgsql;
