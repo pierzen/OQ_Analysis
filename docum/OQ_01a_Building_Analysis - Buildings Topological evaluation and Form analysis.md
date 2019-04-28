@@ -1,9 +1,9 @@
 
-## OQ_Building_Analysis - Buildings Topological evaluation and Form analysis 
+## OQ_01a_Building_Analysis - Buildings Topological evaluation and Form analysis 
 
 Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) gathered data from these scripts.
 
-[OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
+[OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
 This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
 
@@ -12,7 +12,7 @@ Two types of analysis are performed over each building polygon.
 1. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
 2. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
 
-For the description of variables, see [OQ_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
+For the description of variables, see [OQ_01_Analysis Documentation Variables](docum/OQ_Analysis Variables Documentation.md).
 
 **SQL Query**
 
@@ -36,7 +36,7 @@ This file contains Geometry evaluation reports by OSM id for each building in th
 - id refers to the building analyzed
 - id_b refers to a second polygon (either building or other feature) in conflict with the id building.
 
- **OSM database query using OQ_Building_Analysis Function:**
+ **OSM database query using OQ_01a_Building_Analysis Function:**
  
  [OQ_01a_Building_Analysis.sql](sql/OQ_01a_Building_Analysis.sql) is called by 
  [OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_01b_Analysis_Table_Ways_Topology.sql)
