@@ -3,7 +3,7 @@
 
 Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) gathered data from these scripts.
 
-[OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
+[OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
 This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
 
@@ -16,8 +16,8 @@ For the description of variables, see [OQ_Analysis Documentation Variables](docu
 
 **SQL Query**
 
-    	-- public.OQ_Analysis_Table_Ways_Topology(_schema text,_date_extract)
-	SELECT * from public.OQ_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
+    	-- public.OQ_01_Analysis_Table_Ways_Topology(_schema text,_date_extract)
+	SELECT * from public.OQ_01_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
 
 **Output: OSM ways_topology Table** ( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
 
@@ -38,13 +38,13 @@ This file contains Geometry evaluation reports by OSM id for each building in th
 
  **OSM database query using OQ_Building_Analysis Function:**
  
- [OQ_Building_Analysis.sql](script/OQ_Building_Analysis.sql) is called by 
- [OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql)
+ [OQ_01a_Building_Analysis.sql](sql/OQ_01a_Building_Analysis.sql) is called by 
+ [OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_01b_Analysis_Table_Ways_Topology.sql)
  but can also be run independtly like in the example below.
  
     CREATE temporary table temp_buildings AS 
     SELECT id, tags, 
-    public.OQ_Building_Analysis(id, linestring, tags) as eval
+    public.OQ_01a_Building_Analysis(id, linestring, tags) as eval
     FROM myosm_extract_1.ways
     WHERE (exist(tags, 'building')) ;
     	
