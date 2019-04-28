@@ -1,5 +1,7 @@
 
-## OQ_Building_Analysis - Buildings Topological evaluation and Form analysis
+## OQ_Building_Analysis - Buildings Topological evaluation and Form analysis 
+
+Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) gathered data from these scripts.
 
 [OQ_Analysis_Table_Ways_Topology.sql](script/OQ_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
