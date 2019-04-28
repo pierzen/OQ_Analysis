@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.OQ_Analysis_Table_Ways_Topology(
+CREATE OR REPLACE FUNCTION public.OQ_01_Analysis_Table_Ways_Topology(
 	_schema text,
 	_date_extract text,
 	_timezone text)
@@ -13,7 +13,7 @@ DECLARE
 BEGIN
 	IF _timezone<>'' THEN SET TIMEZONE='America/Montreal';
 	END IF;
-	RAISE INFO '% OQ_Analysis_Table_Ways_Topology(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
+	RAISE INFO '% OQ_01_Analysis_Table_Ways_Topology(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
 
 	cmd=format('CREATE TABLE IF NOT EXISTS %1$s.ways_topology  
 	(
@@ -52,7 +52,7 @@ BEGIN
 			'office', 'craft', 'government', 'aeroway', 'railway'])
 		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "Area", "nb_angles": 0,
 					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'area', ST_NPoints(linestring))::json
-		ELSE public.OQ_Building_Analysis(id, linestring, tags)
+		ELSE public.OQ_01a_Building_Analysis(id, linestring, tags)
 		END as eval
 		$$ || format(' FROM 	%1$s.ways
 		WHERE id not in (select member_id
@@ -86,12 +86,12 @@ BEGIN
 	----------------------------------------------------------------------------
 
 	cmd = format('INSERT INTO %1$s.ways_topology (id, id_b, teval, eval)
-	SELECT id, id_b, teval, eval FROM OQ_Topology_Intersect_Analysis(''%1$s'')
+	SELECT id, id_b, teval, eval FROM OQ_01b_Topology_Intersect_Analysis(''%1$s'')
 	ON CONFLICT DO NOTHING;', _schema);
 	RAISE INFO 'cmd %', cmd;
 	EXECUTE cmd;
 
-	RAISE INFO '% OQ_Analysis_Table_Ways_Topology Function completed, nb_recs=%',  to_char(current_timestamp, 'hh24:mi:ss'), nb_recs;
+	RAISE INFO '% OQ_01_Analysis_Table_Ways_Topology Function completed, nb_recs=%',  to_char(current_timestamp, 'hh24:mi:ss'), nb_recs;
 	--cmd = format('SELECT count(*)  INTO nb_recs FROM %1$s.ways_topology;', _schema);
 	--QUERY EXECUTE cmd into nb_recs;
 	--FOR nb_recs in EXECUTE cmd 
