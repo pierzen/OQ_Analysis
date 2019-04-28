@@ -1,8 +1,8 @@
-CREATE OR REPLACE FUNCTION public.OQ_Building_Analysis(id bigint, linestring geometry, 
+CREATE OR REPLACE FUNCTION public.OQ_01a_Building_Analysis(id bigint, linestring geometry, 
 	tags hstore default '"building" => "multipolygon", "QA" => "oq_polygon_ortho"') 
 RETURNS json AS $PROC$
 DECLARE
-	-- OQ_Building_Analysis Performs Topology Validation and Form Analysis on buildings
+	-- OQ_01a_Building_Analysis Performs Topology Validation and Form Analysis on buildings
 	iDebug integer =0;
 	nb_points integer;
 	nb_points_m integer;
