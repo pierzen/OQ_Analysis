@@ -39,7 +39,7 @@ This file contains Geometry evaluation reports by OSM id for each building in th
  **OSM database query using OQ_01a_Building_Analysis Function:**
  
  [OQ_01a_Building_Analysis.sql](../sql/OQ_01a_Building_Analysis.sql) is called by 
- [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/OQ_01b_Analysis_Table_Ways_Topology.sql)
+ [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/OQ_01_Analysis_Table_Ways_Topology.sql)
  but can also be run independtly like in the example below.
  
     CREATE temporary table temp_buildings AS 
