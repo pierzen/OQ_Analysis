@@ -27,4 +27,4 @@ To retrieve Postgis functions stored in the Public schema, we need to provide a 
 
     SET search_path TO public;
     
- For more infos about parsing OSM into PostGIS, see [Paul Norman Blog about PgSnapshot](https://www.paulnorman.ca/blog/2011/11/loading-a-pgsnapshot-schema-with-a-planet-take-2/).
+ For more infos about parsing OSM into PostGIS, see [Paul Norman Blog about PgSnapshot](https://www.paulnorman.ca/blog/2011/11/loading-a-pgsnapshot-schema-with-a-planet-take-2/) and the [Telenav Github Repository useful_postgis_queries](https://github.com/TelenavMapping/useful_postgis_queries).
