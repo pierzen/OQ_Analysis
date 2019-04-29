@@ -29,44 +29,44 @@ DECLARE
 			when exist(b.tags, ''natural'') then ''natural''
 			else ''other''
 		END AS grptagb
-			FROM %I.ways a
-			INNER JOIN %I.ways b
-			ON a.linestring && b.linestring
-			AND exist(a.tags, ''building'') AND ST_NPoints(a.linestring)>3
-			AND ST_IsClosed(a.linestring)
-			AND ST_IsValid(ST_Polygon(a.linestring, 4326))
-			AND	
+		FROM %I.ways a
+		INNER JOIN %I.ways b
+		ON a.linestring && b.linestring
+		AND exist(a.tags, ''building'') AND ST_NPoints(a.linestring)>3
+		AND ST_IsClosed(a.linestring)
+		AND ST_IsValid(ST_Polygon(a.linestring, 4326))
+		AND	
+		(
 			(
-				(
-				ST_NPoints(b.linestring)>3
-				AND ST_IsClosed(b.linestring)
-				AND ST_IsValid(ST_Polygon(b.linestring, 4326))
-				AND (ST_LineCrossingDirection(a.linestring, b.linestring)<>0
-				OR ST_Relate(a.linestring, b.linestring, ''T*T***T**'')=True)
-				and ST_Touches(ST_MakeValid(ST_Polygon(a.linestring, 4326)), ST_MakeValid(ST_Polygon(b.linestring, 4326)) )=False	
-				)
-				OR
-				(
-				ST_NPoints(b.linestring)>3
-				AND ST_LineCrossingDirection(a.linestring, b.linestring)<>0
-				and ST_Touches(a.linestring, b.linestring)=False
-				and (  exist(b.tags, ''building'') OR exist(b.tags, ''landuse'') OR exist(b.tags, ''amenity'') 
-					OR exist(b.tags, ''office'')  OR exist(b.tags, ''craft'')
-					OR exist(b.tags, ''natural'') OR exist(b.tags, ''man_made'')
-					OR exist(b.tags, ''highway'') OR exist(b.tags, ''waterway'') 
-					OR exist(b.tags, ''railway'') OR exist(b.tags, ''aeroway'') 
-					OR exist(b.tags, ''man_made'') )
-				) 
+			ST_NPoints(b.linestring)>3
+			AND ST_IsClosed(b.linestring)
+			AND ST_IsValid(ST_Polygon(b.linestring, 4326))
+			AND (ST_LineCrossingDirection(a.linestring, b.linestring)<>0
+			OR ST_Relate(a.linestring, b.linestring, ''T*T***T**'')=True)
+			and ST_Touches(ST_MakeValid(ST_Polygon(a.linestring, 4326)), ST_MakeValid(ST_Polygon(b.linestring, 4326)) )=False	
 			)
-			WHERE 
-			ST_NPoints(a.linestring)>3
-			AND ST_IsClosed(a.linestring)
-			AND
+			OR
 			(
-				(	exist(b.tags, ''building'') AND a.id < b.id)
-				OR  a.id != b.id
-			)
-			'; 		
+			ST_NPoints(b.linestring)>3
+			AND ST_LineCrossingDirection(a.linestring, b.linestring)<>0
+			and ST_Touches(a.linestring, b.linestring)=False
+			and (  exist(b.tags, ''building'') OR exist(b.tags, ''landuse'') OR exist(b.tags, ''amenity'') 
+				OR exist(b.tags, ''office'')  OR exist(b.tags, ''craft'')
+				OR exist(b.tags, ''natural'') OR exist(b.tags, ''man_made'')
+				OR exist(b.tags, ''highway'') OR exist(b.tags, ''waterway'') 
+				OR exist(b.tags, ''railway'') OR exist(b.tags, ''aeroway'') 
+				OR exist(b.tags, ''man_made'') )
+			) 
+		)
+		WHERE 
+		ST_NPoints(a.linestring)>3
+		AND ST_IsClosed(a.linestring)
+		AND
+		(
+			(	exist(b.tags, ''building'') AND a.id < b.id)
+			OR  a.id != b.id
+		)
+		'; 		
 		FOR ww IN EXECUTE format(source_overlaps, _schema, _schema)
 		LOOP
 			RETURN QUERY
