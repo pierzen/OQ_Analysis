@@ -16,7 +16,7 @@ The prerequisite to use the SQL scripts presented in this repository is to insta
  Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles.
 - [OQ_01b_Topology_Intersect_Analysis.sql](sql/OQ_Topology_Intersect_Analysis.sql) Topological Analysis detects Polygons Intersects.
 
-*See [Documentation](docum/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md).*
+*See [Documentation](docum/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)*
 
 **Type of problems detected**
 ![](img/OQ-Analysis-Detects-Geometry-problems.png)
