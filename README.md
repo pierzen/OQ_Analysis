@@ -11,10 +11,10 @@ The prerequisite to use the SQL scripts presented in this repository is to insta
 
 ## SQL Scripts 
 
-- [OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_Analysis_Table_Ways_Topology.sql) Main Script for Topology Analysis - Adds table ways_topology with Warnings and error flags.
-- [OQ_01a_Building_Analysis.sql](sql/OQ_Building_Analysis.sql)
+- [OQ_01_Analysis_Table_Ways_Topology.sql](sql/OQ_Analysis_Table_Ways_Topology.sql) (PostgreSQL Function) Main Function for Topology Analysis - Adds table ways_topology with Warnings and error flags.
+- [OQ_01a_Building_Analysis.sql](sql/OQ_Building_Analysis.sql) (PostgreSQL Function)
  Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles.
-- [OQ_01b_Topology_Intersect_Analysis.sql](sql/OQ_Topology_Intersect_Analysis.sql) Topological Analysis detects Polygons Intersects.
+- [OQ_01b_Topology_Intersect_Analysis.sql](sql/OQ_Topology_Intersect_Analysis.sql) (PostgreSQL Function) Topological Analysis detects Polygons Intersects.
 
 *See [Documentation](docum/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)*
 
