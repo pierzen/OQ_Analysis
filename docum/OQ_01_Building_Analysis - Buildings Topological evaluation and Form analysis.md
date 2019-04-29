@@ -1,7 +1,11 @@
 
-## OQ_01a_Building_Analysis - Buildings Topological evaluation and Form analysis 
+## OQ_01_Building_Analysis - Buildings Topological evaluation and Form analysis 
 
 Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) gathered data from these scripts.
+
+**Prerequesites** : 
+- PostgreSQL10+, Postgis 2.4+, compile the functions in the sql folder 
+- upload an OSM file in a PostgreSQL schema with Osmosis or similar tool (ex. 'myosm_extract_1') 
 
 [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
