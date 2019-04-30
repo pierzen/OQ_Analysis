@@ -11,7 +11,10 @@ DECLARE
 	cmd text;
 	cmd2 text;
 BEGIN
-	IF _timezone<>'' THEN SET TIMEZONE='America/Montreal';
+	_schema = quote_ident(_schema);
+	_date_extract = quote_ident(_date_extract);
+	_timezone = quote_ident(_timezone);
+	IF _timezone<>'' THEN SET TIMEZONE='utc';
 	END IF;
 	RAISE INFO '% OQ_01_Analysis_Table_Ways_Topology(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
 
