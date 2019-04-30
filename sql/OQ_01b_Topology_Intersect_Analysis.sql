@@ -7,6 +7,7 @@ DECLARE
 	w record;
 	ww record;
 	 BEGIN	 
+		_schema = quote_ident(_schema);
 		source_overlaps='
 		select a.id as id, b.id as id_b, b.tags, 
 		a.linestring as linestring_a, b.linestring as linestring_b,
