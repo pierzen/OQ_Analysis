@@ -7,7 +7,7 @@ Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.git
 - PostgreSQL10+, Postgis 2.4+, compile the functions in the sql folder 
 - upload an OSM file in a PostgreSQL schema with Osmosis or similar tool (ex. 'myosm_extract_1') 
 
-[OQ_01_Analysis_Table_Ways_Topology.sql](../sql/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
+[OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
 
 This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
 
@@ -42,8 +42,8 @@ This file contains Geometry evaluation reports by OSM id for each building in th
 
  **OSM database query using OQ_01a_Building_Analysis Function:**
  
- [OQ_01a_Building_Analysis.sql](../sql/OQ_01a_Building_Analysis.sql) is called by 
- [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/OQ_01_Analysis_Table_Ways_Topology.sql)
+ [OQ_01a_Building_Analysis.sql](../sql/Analysis/OQ_01a_Building_Analysis.sql) is called by 
+ [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql)
  but can also be run independtly like in the example below.
  
     CREATE temporary table temp_buildings AS 
