@@ -6,7 +6,6 @@ AS $PROC$
 /* Search in Nodes table id from point geometry */
 DECLARE
 	cmd TEXT;
-	--sgeom geometry;
 	geog geography;
 	id bigint;
 BEGIN
