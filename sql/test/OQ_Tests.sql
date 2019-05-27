@@ -9,6 +9,12 @@ select id, public.OQ_Way_has_shared_nodes('oq_sample',
 FROM oq_sample.oq_s1a_building
 WHERE exist(tags, 'building') or exist(tags, 'building:part') or exist(tags, 'man_made');
 
+drop table IF EXISTS temp_fjson;
+create temporary table temp_fjson as 
+SELECT public.OQ_PostGIS2Json('oq_sample','oq_s1a_building','linestring') as tjson;
+copy (select tjson from temp_fjson) TO 'd:/temp/oq_s1a_building.geojson' encoding 'utf-8'; 
+
+
 SELECT *, public.OQ_Block_Adjacent_Polygons_id('oq_sample','oq_s1a_building')
 FROM  oq_sample.oq_s1a_building LIMIT 10;
 
@@ -98,43 +104,34 @@ from angles;
 	}
 */
 
+DROP TABLE IF EXISTS oq_sample.oq_s1a_building_orthogonal;
+CREATE TABLE oq_sample.oq_s1a_building_orthogonal AS
 with grp_buildings AS (
-SELECT grp_poly, 
-public.OQ_Orthogonal(grp_poly::bigint, 
-geom_extring, 1.0, 10.0) as eval
-FROM oq_sample.oq_s1b_building_extring
+SELECT id, 
+public.OQ_Orthogonal(id::bigint, 
+linestring, 1.0, 10.0) as eval
+FROM oq_sample.oq_s1a_building
 ),
 revs as (
-SELECT grp_poly,eval
+SELECT id, eval
 , eval->>'angles' as angles,
 eval->>'angles_r' as angles_r,
-ST_GeomFromText((eval->>'linestring'), 4326) as linestring
-,
-(eval->>'linestring_r') as tlinestring_r
-,
-ST_GeomFromText((eval->>'linestring_r'), 4326) as linestring_r
-,
---ST_OrientedEnvelope(ST_GeomFromText((eval->>'linestring'), 4326)) as obb_linestring,
--- SFCGAL ST_ApproximateMedialAxis(ST_GeomFromText((eval->>'linestring'), 4326)) as ama_linestring,
--- ST_StraightSkeleton(ST_GeomFromText((eval->>'linestring'), 4326)) as skel_linestring,
+ST_GeomFromText((eval->>'linestring'), 4326) as linestring,
+(eval->>'linestring_r') as tlinestring_r,
+ST_GeomFromText((eval->>'linestring_r'), 4326) as linestring_r,
 (eval->>'segments_q_rev') as t_segments_q_rev,
 (eval->>'segments_d_rev') as t_segments_d_rev,
 (eval->>'segments_p0_rev') as t_segments_p0_rev,
 (eval->>'lk_S1') as lk_S1,
-(eval->>'lk_180_S2') as lk_180_S2
---FROM grp_buildings;
-, 
+(eval->>'lk_180_S2') as lk_180_S2, 
 CASE WHEN NOT (eval->>'segments_q_rev') ~ 'MULTILINESTRING' 
 	THEN NULL 
---THEN ST_GeomFromText('MULTILINESTRING(())', 4326)
 ELSE ST_GeomFromText((eval->>'segments_q_rev'), 4326) 
-END AS segments_q_rev
-, 
+END AS segments_q_rev, 
 CASE WHEN NOT (eval->>'segments_d_rev') ~ 'MULTILINESTRING' 
 	THEN NULL 
 ELSE ST_GeomFromText((eval->>'segments_d_rev'), 4326) 
-END AS segments_d_rev
-, 
+END AS segments_d_rev, 
 CASE WHEN NOT (eval->>'segments_p0_rev') ~ 'MULTILINESTRING' 
 	THEN NULL 
 ELSE ST_GeomFromText((eval->>'segments_p0_rev'), 4326) 
@@ -142,9 +139,55 @@ END AS segments_p0_rev
 FROM grp_buildings
 WHERE (eval->>'linestring_r')<>'' 
 )
-SELECT * FROM revs
-;
+SELECT * FROM revs;
 
+drop table IF EXISTS temp_fjson;
+create temporary table temp_fjson as 
+SELECT public.OQ_PostGIS2Json('oq_sample','oq_s1a_building_orthogonal','linestring_r') as tjson;
+copy (select tjson from temp_fjson) TO 'd:/temp/oq_s1a_building_orthogonal.geojson' encoding 'utf-8'; 
+
+DROP TABLE IF EXISTS oq_sample.oq_s1b_building_extring_orthogonal;
+CREATE TABLE oq_sample.oq_s1b_building_extring_orthogonal AS
+with grp_buildings AS (
+SELECT grp_poly, 
+public.OQ_Orthogonal(grp_poly::bigint, 
+geom_extring, 1.0, 10.0) as eval
+FROM oq_sample.oq_s1b_building_extring
+),
+revs as (
+SELECT grp_poly, eval
+, eval->>'angles' as angles,
+eval->>'angles_r' as angles_r,
+ST_GeomFromText((eval->>'linestring'), 4326) as linestring,
+(eval->>'linestring_r') as tlinestring_r,
+ST_GeomFromText((eval->>'linestring_r'), 4326) as linestring_r,
+(eval->>'segments_q_rev') as t_segments_q_rev,
+(eval->>'segments_d_rev') as t_segments_d_rev,
+(eval->>'segments_p0_rev') as t_segments_p0_rev,
+(eval->>'lk_S1') as lk_S1,
+(eval->>'lk_180_S2') as lk_180_S2, 
+CASE WHEN NOT (eval->>'segments_q_rev') ~ 'MULTILINESTRING' 
+	THEN NULL 
+ELSE ST_GeomFromText((eval->>'segments_q_rev'), 4326) 
+END AS segments_q_rev, 
+CASE WHEN NOT (eval->>'segments_d_rev') ~ 'MULTILINESTRING' 
+	THEN NULL 
+ELSE ST_GeomFromText((eval->>'segments_d_rev'), 4326) 
+END AS segments_d_rev, 
+CASE WHEN NOT (eval->>'segments_p0_rev') ~ 'MULTILINESTRING' 
+	THEN NULL 
+ELSE ST_GeomFromText((eval->>'segments_p0_rev'), 4326) 
+END AS segments_p0_rev
+FROM grp_buildings
+WHERE (eval->>'linestring_r')<>'' 
+)
+SELECT * FROM revs;
+
+
+drop table IF EXISTS temp_fjson;
+create temporary table temp_fjson as 
+SELECT public.OQ_PostGIS2Json('oq_sample','oq_s1b_building_extring_orthogonal','linestring_r') as tjson;
+copy (select tjson from temp_fjson) TO 'd:/temp/oq_s1b_building_extring_orthogonal.geojson' encoding 'utf-8'; 
 
 --=======================================================
 DROP TABLE IF EXISTS public.oq_s1c_building_rotations;
@@ -171,6 +214,7 @@ CREATE TABLE oq_sample.oq_s1c_building_rotations
 
 SELECT ST_GeomFromText('POINT(-79.419978 43.682215)',4326) as point_pm1, ST_GeomFromText('POINT(-79.419918 43.682067)',4326) AS point_p0, ST_GeomFromText('POINT(-79.419967 43.682056)',4326) AS point_p1, 2.85545082828072 AS azimuth_pm1_p0, -1.87078904740409 AS azimuth_p0_p1, -270.79 AS diff_azimuth, 90.7935978431747 AS angle_p0, 1 AS id, 2 AS P0
  
+
 UPDATE public.oq_sample_rotations r
 SET line_p0_p1_r = 
 	ST_Rotate(ST_MakeLine(array[point_p0, pcentre_p0_p1, point_p1])::geometry, rotRadians, pcentre_p0_p1::geometry);
