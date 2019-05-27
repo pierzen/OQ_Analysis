@@ -29,7 +29,6 @@ You also need to load and compile the various functions in the sql folder before
 ## Orthogonal SQL Functions
 
 - [OQ_Orthogonal.sql](sql/Orthogonal/OQ_Orthogonal.sql) PRELIMINARY VERSION PostgreSQL Function (id, linestring geometry) Orthogonal Angles corrections - For each row, a JSON variable contains Results (ie, angles, angles corrected, linestring revised. Other procedures can analyse / transform the data, list Node ID's that need revision plus new geometry.
-https://github.com/pierzen/Orthogonal/OQ_Analysis/blob/master/sql/Orthogonal/OQ_OrthogonalRotation.sql
 
 ## Sample data and Tests
 - [OQ_sample_data.sql](sql/test/OQ_Sample_Data.sql) provides the postgis sample tables
