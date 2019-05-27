@@ -4,7 +4,7 @@ OpenStreetMap Quality Analysis Tools
 
 ------------------------------------------------------------------------------------------------
 
-The prerequisite to use the SQL scripts presented in this repository is to install a PostgreSQL / PostGIS database with the Osmosis PgSnapshot Database and import an OSM file into a PostgreSQL schema (See [PostGIS OSM Database with Osmosis PgSnapshot Schema](docum/PostGIS%20OSM%20Database%20with%20Osmosis%20PgSnapshot%20Schema.md)).
+The prerequisite to use the SQL scripts presented in this repository is to install a PostgreSQL / PostGIS database with the Osmosis PgSnapshot Database and import an OSM file into a PostgreSQL schema (See [PostGIS OSM Database with Osmosis PgSnapshot Schema](docs/PostGIS%20OSM%20Database%20with%20Osmosis%20PgSnapshot%20Schema.md)).
 You also need to load and compile the various functions in the sql folder before running analysis.
 
 ------------------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ You also need to load and compile the various functions in the sql folder before
 - [OQ_01b_Topology_Intersect_Analysis.sql](sql/Analysis/OQ_01b_Topology_Intersect_Analysis.sql) PostgreSQL Function (_schema) Topological Analysis detects Polygons Intersects.
   <br/>**>** SELECT id, id_b, teval, eval FROM **public.OQ_01b_Topology_Intersect_Analysis(_schema)**;
  
-*See [Documentation](docum/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)*
+*See [Documentation](docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)*
 
 ## Orthogonal SQL Functions
 
