@@ -12,7 +12,7 @@ You also need to load and compile the various functions in the sql folder before
 
 ## Building Analysis SQL Functions
 
-- [OQ_01_Analysis_Table_Ways_Topology.sql](sql/Analys/OQ_01_Analysis_Table_Ways_Topology.sql) PostgreSQL Function (_schema, _date_extract) 
+- [OQ_01_Analysis_Table_Ways_Topology.sql](sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) PostgreSQL Function (_schema, _date_extract) 
   Main Function for Topology Analysis - Adds table ways_topology with Warnings and error flags.
   <br/>**>** SELECT * from **public.OQ_01_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27')**;
 
@@ -28,12 +28,13 @@ You also need to load and compile the various functions in the sql folder before
 
 ## Orthogonal SQL Functions
 
-- [OQ_Orthogonal.sql](sql/OQ_Orthogonal.sql) PRELIMINARY VERSION PostgreSQL Function (id, linestring geometry) Orthogonal Angles corrections - For each row, a JSON variable contains Results (ie, angles, angles corrected, linestring revised. Other procedures can analyse / transform the data, list Node ID's that need revision plus new geometry.
-https://github.com/pierzen/OQ_Analysis/blob/master/sql/Orthogonal/OQ_OrthogonalRotation.sql
+- [OQ_Orthogonal.sql](sql/Orthogonal/OQ_Orthogonal.sql) PRELIMINARY VERSION PostgreSQL Function (id, linestring geometry) Orthogonal Angles corrections - For each row, a JSON variable contains Results (ie, angles, angles corrected, linestring revised. Other procedures can analyse / transform the data, list Node ID's that need revision plus new geometry.
+https://github.com/pierzen/Orthogonal/OQ_Analysis/blob/master/sql/Orthogonal/OQ_OrthogonalRotation.sql
 
 ## Sample data and Tests
 - [OQ_sample_data.sql](sql/test/OQ_Sample_Data.sql) provides the postgis sample tables
 - [OQ_Tests.sql](sql/test/OQ_Tests.sql) contains tests and example of Orthogonalisation, GeoJSON outputs.
+- [GeoJson sample results](sql/test/geojson)
 
 
 **Type of problems detected**
