@@ -53,14 +53,20 @@ FROM oq_sample.oq_s1b_building_extring;
 	ie k-1, k-2, k+2
 */
 
-SELECT public.OQ_Circular_list_select_next(circular_list:='{1, 3, 7, 9, 10,11}',
-kp:=2,variation:=+3);  -- result kp=5
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,4);
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,5);
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,-2);
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,-3);
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,-4);
-SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,-5);
+WITH circular  AS (
+SELECT circular_list::integer[], kp, variation
+FROM (VALUES
+('{1, 3, 7, 9, 10,11}', 2, 3),
+('{1, 3, 7, 9, 10,11}',2,4),
+('{1, 3, 7, 9, 10,11}',2,5),
+('{1, 3, 7, 9, 10,11}',2,-2),
+('{1, 3, 7, 9, 10,11}',2,-3),
+('{1, 3, 7, 9, 10,11}',2,-4),
+('{1, 3, 7, 9, 10,11}',2,-5)
+)  AS c (circular_list, kp, variation)
+)
+SELECT circular_list, kp, variation, public.OQ_Circular_list_select_next(circular_list, kp, variation)
+from circular;
 
 /*	OQ_OrthogonalProcessPoints
 	Internal Function for OQ_Orthogonal
@@ -71,9 +77,17 @@ SELECT public.OQ_Circular_list_select_next('{1, 3, 7, 9, 10,11}',2,-5);
 	lk_next_s1			for S2, ref to next s1.point
 */	
 
-SELECT (public.OQ_OrthogonalProcessPoints(1, 10.0, '{178.6,89.8,87.3,87.8,178.5,88.5,89.2,178.2,87,88.5,91.6,178.6}')).*;
+WITH angles AS (
+SELECT k_angle_deb, tolerance_max, lp_angle
+FROM (VALUES
+(1, 10.0, '{178.6,89.8,87.3,87.8,178.5,88.5,89.2,178.2,87,88.5,91.6,178.6}'::float[]),
+(2, 10.0, '{178.6,89.8,87.3,87.8,178.5,88.5,89.2,178.2,87,88.5,91.6,178.6, 88.9}'::float[])
+) AS a (k_angle_deb, tolerance_max, lp_angle)
+)
+SELECT k_angle_deb, tolerance_max, lp_angle,
+	 (public.OQ_OrthogonalProcessPoints(k_angle_deb, tolerance_max, lp_angle)).*
+FROM angles;
 
-SELECT (public.OQ_OrthogonalProcessPoints(2, 10.0, '{178.6,89.8,87.3,87.8,178.5,88.5,89.2,178.2,87,88.5,91.6,178.6, 88.9}')).*;
 
 /*	OQ_Calc_Classify_Angles
 	input : linestring
@@ -141,6 +155,9 @@ WHERE (eval->>'linestring_r')<>''
 )
 SELECT * FROM revs;
 
+SELECT * FROM oq_sample.oq_s1a_building_orthogonal limit 10;
+
+
 drop table IF EXISTS temp_fjson;
 create temporary table temp_fjson as 
 SELECT public.OQ_PostGIS2Json('oq_sample','oq_s1a_building_orthogonal','linestring_r') as tjson;
@@ -183,44 +200,9 @@ WHERE (eval->>'linestring_r')<>''
 )
 SELECT * FROM revs;
 
+SELECT * FROM oq_sample.oq_s1b_building_extring_orthogonal limit 10;
 
 drop table IF EXISTS temp_fjson;
 create temporary table temp_fjson as 
 SELECT public.OQ_PostGIS2Json('oq_sample','oq_s1b_building_extring_orthogonal','linestring_r') as tjson;
 copy (select tjson from temp_fjson) TO 'd:/temp/oq_s1b_building_extring_orthogonal.geojson' encoding 'utf-8'; 
-
---=======================================================
-DROP TABLE IF EXISTS public.oq_s1c_building_rotations;
-
-CREATE TABLE oq_sample.oq_s1c_building_rotations
-(
-    id bigint,
-    p0 integer,
-    rotradians double precision,
-    point_pm1 geometry(point, 4326),
-    point_p0 geometry(point, 4326),
-    point_p1 geometry(point, 4326),
-    azimuth_pm1_p0 double precision,
-    azimuth_p0_p1 double precision,
-    diff_azimuth double precision,
-    angle_p0 double precision,
-    linestring geometry(linestring, 4326),
-    line_p0_p1 geometry(linestring, 4326),
-    point_p0_r geometry(point, 4326),
-    point_p1_r geometry(point, 4326),
-    line_p0_p1_r geometry(linestring, 4326),
-    pcentre_p0_p1 geometry(point, 4326)
-);
-
-SELECT ST_GeomFromText('POINT(-79.419978 43.682215)',4326) as point_pm1, ST_GeomFromText('POINT(-79.419918 43.682067)',4326) AS point_p0, ST_GeomFromText('POINT(-79.419967 43.682056)',4326) AS point_p1, 2.85545082828072 AS azimuth_pm1_p0, -1.87078904740409 AS azimuth_p0_p1, -270.79 AS diff_azimuth, 90.7935978431747 AS angle_p0, 1 AS id, 2 AS P0
- 
-
-UPDATE public.oq_sample_rotations r
-SET line_p0_p1_r = 
-	ST_Rotate(ST_MakeLine(array[point_p0, pcentre_p0_p1, point_p1])::geometry, rotRadians, pcentre_p0_p1::geometry);
-
-UPDATE public.oq_sample_rotations r
-SET point_p0_r = ST_PointN(line_p0_p1_r,1);
-
-UPDATE public.oq_sample_rotations r
-SET point_p1_r = ST_PointN(line_p0_p1_r,3);
