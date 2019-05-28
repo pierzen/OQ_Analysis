@@ -17,7 +17,7 @@ $rep_osmosis_script    = "D:\osmosis\script"
 $rep_osmosis_osmhist  = "D:\osmosis-oshmist"
 # uncoment and provide PostgreSQL server info   pppp=port, uuuu=user
 #$conn_postgreSQL      = "-h localhost -p pppp -U uuuu"
-$conn_postgreSQL      = "-h localhost -p 7535 -U osm"
+$conn_postgreSQL      = "-h localhost -p 5434 -U osm"
 $rep_data             = "D:\potentiel_3_0\2018-05-RDC-Opencity\data"
 $osm                  = "on_toronto_jarek_2019_03_21.osm"
 # postgreSQL schema for OSM History file - For better documentation add a suffixe with date of Extraction
@@ -54,16 +54,16 @@ echo "    PostgreSQL Schema  + PosGIS datatypes   ------------------------------
 echo "$s------------------------------------------------------------------------------------$s"
 
 echo "- pgsql_schema $pgsql_schema"
-psql -h localhost -p 7535 -U osm -d osm_hist -c "DROP SCHEMA IF EXISTS $pgsql_schema cascade"
-psql -h localhost -p 7535 -U osm -d osm_hist -c "CREATE SCHEMA IF NOT EXISTS $pgsql_schema"
-psql -h localhost -p 7535 -U osm -d osm_hist -c "ALTER DATABASE osm_hist SET search_path TO $pgsql_schema, public"
+psql -h localhost -p 5434 -U osm -d osm_hist -c "DROP SCHEMA IF EXISTS $pgsql_schema cascade"
+psql -h localhost -p 5434 -U osm -d osm_hist -c "CREATE SCHEMA IF NOT EXISTS $pgsql_schema"
+psql -h localhost -p 5434 -U osm -d osm_hist -c "ALTER DATABASE osm_hist SET search_path TO $pgsql_schema, public"
 echo " "
 echo "- pgsnapshot_schema_0.6 create the tables in PostGIS"
-psql.exe --echo-all -h localhost -p 7535 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6.sql"
+psql.exe --echo-all -h localhost -p 5434 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6.sql"
 # adds supplementary columns
-psql.exe --echo-all -h localhost -p 7535 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_action.sql"
-psql.exe --echo-all -h localhost -p 7535 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_bbox.sql"
-psql.exe --echo-all -h localhost -p 7535 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_linestring.sql"
+psql.exe --echo-all -h localhost -p 5434 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_action.sql"
+psql.exe --echo-all -h localhost -p 5434 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_bbox.sql"
+psql.exe --echo-all -h localhost -p 5434 -U osm -d osm_hist -f "$rep_osmosis_script\pgsnapshot_schema_0.6_linestring.sql"
 
 
 echo " "
@@ -90,7 +90,7 @@ echo "$s------------------------------------------------------------------------
 echo "   PgSQL copy files and post process variables                      ------------------"
 echo "$s------------------------------------------------------------------------------------$s"
 
-psql.exe --echo-all -h localhost -p 7535 -U osm -d osm_hist -f "$rep_osmosis_script\osmhist_pgsnapshot_load_0.6.sql"
+psql.exe --echo-all -h localhost -p 5434 -U osm -d osm_hist -f "$rep_osmosis_script\osmhist_pgsnapshot_load_0.6.sql"
 
 echo " "
 echo " "
