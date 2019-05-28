@@ -33,7 +33,7 @@ You also need to load and compile the various functions in the sql folder before
 ## Sample data and Tests
 - [OQ_sample_data.sql](sql/test/OQ_Sample_Data.sql) provides the postgis sample tables
 - [OQ_Tests.sql](sql/test/OQ_Tests.sql) contains tests and example of Orthogonalisation, GeoJSON outputs.
-- [GeoJson sample results](sql/test/geojson)
+- [GeoJson sample results](sql/test/geojson)  [OSM data copyright](https://www.openstreetmap.org/copyright)
 
 
 **Type of problems detected**
