@@ -1,8 +1,11 @@
-PostGIS Spatial Analysis with OQ_Analysis can be done using OSM extracts from various sources such as a Planet OSM download from Geofabrik, HOT Export or even an Overpass Query for building features. PostGIS offers a variety of Spatial analysis and the possibility to export data for visualisation.
-
 # Installation
 
-To run these functions, you need access to a PostgreSQl-PostGIS server and the Osmsois-Java based commands to import data into PostGIS.
+PostGIS Spatial Analysis with OQ_Analysis can be done using OSM extracts from various sources such as a Planet OSM download from Geofabrik, HOT Export or even an Overpass Query for building features. PostGIS offers a variety of Spatial analysis and the possibility to export data for visualisation.
+
+**Prerequesites** : 
+
+- PostgreSQL10+, Postgis 2.4+, download all the functions in the sql folders and run them in PostgreSQL to add the functions to the OQ_Analysis Database 
+- Osmosis Java based command tool to import osm data into PostGIS
 
 ## PostgreSql-PostGIS
 
