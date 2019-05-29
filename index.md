@@ -1,8 +1,13 @@
 # OQ_Analysis Tools         
 
+<img align="left" width="132" height="132" src="img/OQi_132.png">
+
+
+
 [About OQ_Analysis](README.md)
 
 [Prerequisites & Installation](https://github.com/pierzen/OQ_Analysis/blob/master/docs/Installation.md)
+
 
 Main features:
 
@@ -23,6 +28,3 @@ Main features:
 - [GeoJson visualisations](sql/test/geojson) &nbsp; ([license ODbL, OpenStreetMap](https://www.openstreetmap.org/copyright))
 
 [GNU General Public License v3.0](LICENSE)
-
-
-<img align="left" width="132" height="132" src="img/OQi_132.png">
