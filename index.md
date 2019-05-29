@@ -22,7 +22,7 @@ Main features:
 **Sample data and Tests**
 
 - [SQL Sample data](https://github.com/pierzen/OQ_Analysis/blob/master/sql/test/OQ_Sample_Data.sql) provides the postgis sample tables
-- [SQL Tests](https://github.com/pierzen/OQ_Analysis/blob/master/sql/test/OQ_Tests.sql) contains tests and example of Orthogonalisation, GeoJSON outputs.
+- [SQL Test files](https://github.com/pierzen/OQ_Analysis/blob/master/sql/test) contains tests and examples of Orthogonalisation, GeoJSON outputs.
 - [GeoJson visualisations](https://github.com/pierzen/OQ_Analysis/blob/master/sql/test/geojson) &nbsp; ([license ODbL, OpenStreetMap](https://www.openstreetmap.org/copyright))
 
 [GNU General Public License v3.0](LICENSE)
