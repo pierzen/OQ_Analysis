@@ -9,7 +9,7 @@ This library contains PostgreSQL functions to analyze and transform OpenStreetMa
 
 The main functions are:
 
-**Building Analysis** ([documentation]('docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md'))
+**Building Analysis** 
 
 - [OQ_01_Analysis_Table_Ways_Topology.sql](sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) Buildings irregular geometry warnings  and error flags.
 - [Documentation](docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
