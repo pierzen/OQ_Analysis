@@ -1,14 +1,11 @@
 chcp 1252
-clear
 <#
  Import OSM Data In a PostGRESQL-PostGIS (Windows powershell)
  TO FIX Windows 10 problems with osmosis - we suggest to rename osmosis/bin/osmosis.bat to do_osmosis.cmd
 #>
 
 $today=$(Get-Date -f yyyy-MM-dd)
-#$q="'"
 
-echo $today   Loading OSM To Postgis $pgsql_schema       --------------------$s
 #
 # Parameters       --------------------------------------------------------------------------
 
@@ -18,22 +15,24 @@ $rep_osmosis_osmhist  = "D:\osmosis-oshmist"
 # uncoment and provide PostgreSQL server info   pppp=port, uuuu=user
 #$conn_postgreSQL      = "-h localhost -p pppp -U uuuu"
 $conn_postgreSQL      = "-h localhost -p 5434 -U osm"
-$rep_data             = "D:\Canada_Building_Import_Analysis\data"
+$rep_data             = "Canada_Building_Import_Analysis"
 $osm                  = "on_toronto_jarek_2019_03_21.osm"
 # postgreSQL schema for OSM History file - For better documentation add a suffixe with date of Extraction
 $pgsql_schema         = "on_toronto_jarek_2019_03_21"
     
 #--------------------------------------------------------------------------------------------#
-#      pgsnapshot_load_0.6_rev_osm_hist.sql                                                                                      #
+                                                             #
 [Console]::OutputEncoding = [Text.UTF8Encoding]::UTF8
 Set-ExecutionPolicy -sExecutionPolicy RemoteSigned 
 clear
 $s="`r`n"
+
+echo $today   Loading OSM To Postgis $pgsql_schema       --------------------$s
 echo "-----------------------------------------------------------------------------------"
-="$rep_data\pgsqldump"
+$rep_data_pgsqldump="$rep_data\pgsqldump"
 
 echo "Parameters Osmosis-PgSnaphot 0.6 Import OSM to POSTGIS"
-echo "osmosis pgsnatpshot  pgsql scriptS"
+echo "-----------------------------------------------"
 echo "rep_osmosis_osmhist  = $rep_osmosis_osmhist"
 #conn_postgreSQL           = "-h $postgre_hot -p $postgre_port -U $postge_user"
 echo "conn_postgreSQL      = psql : à remplacer valeurs connexion postgre      - h host, -p port -u user"
