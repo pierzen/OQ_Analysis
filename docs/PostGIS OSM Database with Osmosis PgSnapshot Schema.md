@@ -36,7 +36,7 @@ In the next section we will describe how to install the various components and r
 - **Windows** :  [osmosis-pgsnapshot-load-postgis.ps1](../script/osmosis-pgsnapshot-load-postgis.ps1)
 - **Linux** : [osmosis-pgsnapshot-load-postgis.sh](../script/osmosis-pgsnapshot-load-postgis.sh)  - **Note** this script was not tested on linux and might need corrections for the directories
 
-You need  to create a directory for your OQ_Analysis projects where you will store the scripts and OSM files to import into PostGIS.  The [PostGIS_Setup](https://wiki.openstreetmap.org/wiki/Osmosis/PostGIS_Setup) wiki page describes the setup for Linux and the ps1 script can be easily adapted for linux.
+You need  to create a directory for your OQ_Analysis projects where you will store the scripts and OSM files to import into PostGIS.  The [PostGIS_Setup](https://wiki.openstreetmap.org/wiki/Osmosis/PostGIS_Setup) wiki page describes the setup for Linux amd should help you to revise the file links in the sh script.
 
 Note that this scripts refers to the Osmosis scripts 
 - d:\osmosis  : where Osmosis scripts are stored
