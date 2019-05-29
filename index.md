@@ -25,4 +25,4 @@ Main features:
 [GNU General Public License v3.0](LICENSE)
 
 
-<img align="right" width="132" height="132" src="img/OQi_132.png">
+<img align="left" width="132" height="132" src="img/OQi_132.png">
