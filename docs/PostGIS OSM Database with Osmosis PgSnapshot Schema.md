@@ -32,7 +32,9 @@ In the next section we will describe how to install the various components and r
 
 ## Installation of scripts on your computer
 
-You need  to create a directory for your OQ_Analysis projects where you will store the scripts and OSM files to import into PostGIS.  The script [osmosis-pgsnapshot-load-postgis.ps1](https://github.com/pierzen/OQ_Analysis/blob/master/script/osmosis-pgsnapshot-load-postgis.ps1) to import data to PostGIS is available for Windows. Note that this scripts refers to the Osmosis scripts 
+You need  to create a directory for your OQ_Analysis projects where you will store the scripts and OSM files to import into PostGIS.  The script [osmosis-pgsnapshot-load-postgis.ps1](https://github.com/pierzen/OQ_Analysis/blob/master/script/osmosis-pgsnapshot-load-postgis.ps1) to import data to PostGIS is available for Windows. The [PostGIS_Setup](https://wiki.openstreetmap.org/wiki/Osmosis/PostGIS_Setup) wiki page describes the setup for Linux and the ps1 script can be easily adapted for linux.
+
+Note that this scripts refers to the Osmosis scripts 
 - d:\osmosis  : where Osmosis scripts are stored
 - d:\osmosis\bin : to fix problems with windows, rename osmosis.bat to do_osmosis.cmd. The osmosis-pgsnapshot-load-postgis.ps1 refers to this revised name.
 - d:\osmosis-osmhist : where  osmhist_pgsnapshot_load_0.6.sql script is located
