@@ -13,7 +13,7 @@ $rep_osmosis_osmhist  = "/osmosis-oshmist"
 # uncoment and provide PostgreSQL server info   pppp=port, uuuu=user
 #$conn_postgreSQL      = "-h localhost -p pppp -U uuuu"
 $conn_postgreSQL      = "-h localhost -p 7535 -U osm"
-$rep_data             = "/potentiel_3_0/2018-05-RDC-Opencity/data"
+$rep_data             = "/Canada_Building_Import_Analysis/data"
 $osm                  = "on_toronto_jarek_2019_03_21.osm"
 # postgreSQL schema for OSM History file - For better documentation add a suffixe with date of Extraction
 $pgsql_schema         = "on_toronto_jarek_2019_03_21"
