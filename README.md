@@ -4,8 +4,7 @@ OpenStreetMap Quality Analysis Tools
 
 ------------------------------------------------------------------------------------------------
 
-The prerequisite to use the SQL scripts presented in this repository is to install a PostgreSQL / PostGIS database and Osmosis. Osmosis PgSnapshot let import an OSM file into a PostgreSQL schema (See [PostGIS OSM Database with Osmosis PgSnapshot Schema](docs/PostGIS%20OSM%20Database%20with%20Osmosis%20PgSnapshot%20Schema.md)).
-You also need to load and compile the various functions in the sql folder before running analysis.
+Prerequisites : See the [Installation page](https://github.com/pierzen/OQ_Analysis/blob/master/docs/PostGIS%20OSM%20Database%20with%20Osmosis%20PgSnapshot%20Schema.md).
 
 ------------------------------------------------------------------------------------------------
 
