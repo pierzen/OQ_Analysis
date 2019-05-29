@@ -1,11 +1,11 @@
 # OQ_Analysis
 OpenStreetMap Quality Analysis Tools         
 <img align="right" width="132" height="132" src="img/OQi_132.png">
-See Prerequisites on the [Installation page](https://github.com/pierzen/OQ_Analysis/blob/master/docs/Installation.md)
+PostgreSQL Library with PostGIS functions to analyze and transform OpenStreetMap Building data. 
 
 ------------------------------------------------------------------------------------------------
 
-This library contains PostgreSQL functions to analyze and transform OpenStreetMap Building data. 
+See the Prerequisites on the [Installation page](https://github.com/pierzen/OQ_Analysis/blob/master/docs/Installation.md)
 
 The main functions are:
 
