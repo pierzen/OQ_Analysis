@@ -2,8 +2,6 @@
 
 <img align="left" width="132" height="132" src="img/OQi_132.png">
 
-
-
 [About OQ_Analysis](README.md)
 
 [Prerequisites & Installation](https://github.com/pierzen/OQ_Analysis/blob/master/docs/Installation.md)
