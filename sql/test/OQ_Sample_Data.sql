@@ -2,6 +2,8 @@ CREATE SCHEMA IF NOT EXISTS oq_sample;
 
 SET client_encoding = 'UTF8';
 
+-- NOTE file on_toronto_jarek_2019_03_21.osm.gz contains osm data to be imported and loaded to PostGIS for Test2.
+
 DROP TABLE IF EXISTS oq_sample.oq_s1a_building;
 
 CREATE TABLE oq_sample.oq_s1a_building (
@@ -15,6 +17,7 @@ CREATE TABLE oq_sample.oq_s1a_building (
     linestring public.geometry(LineString,4326)
 );
 
+-- source of data, OpenStreetMap, license ODbL
 INSERT INTO oq_sample.oq_s1a_building	
 SELECT id::bigint, version, user_id, tstamp, changeset_id::bigint, tags::hstore, nodes::bigint[], 
  --linestring --ST_AsEWKT(linestring)	--
