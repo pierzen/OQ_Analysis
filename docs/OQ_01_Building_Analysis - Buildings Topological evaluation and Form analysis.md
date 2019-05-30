@@ -1,19 +1,17 @@
-
 ## OQ_01_Building_Analysis - Buildings Topological evaluation and Form analysis 
 
 Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) are examples of spatial data analysis that can be made from this library.
 
-[OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. It Adds table  with Warnings and error flags to the schema specified in parallel to table ways that was analyzed.
-
-This Script needs only the schema name and the date of the extract. It creates the ways_topology table and adds the Warnings and Topological Errors. This is the main Script the call other scripts for the various functions to prepare the table. 
+[OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. 
+This Script adds schema.ways_topology table with the Warnings and Topological Errors for each way. This is the main Script the call other scripts for the various functions to prepare the table. 
 
 Two types of analysis are performed over each building polygon.
 1. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
-[OQ_01b_Topology_Intersect_Analysis.sql](sql/Analysis/OQ_01b_Topology_Intersect_Analysis.sql) PostgreSQL Function (_schema) Topological Analysis detects Polygons Intersects.
+[OQ_01b_Topology_Intersect_Analysis.sql](../sql/Analysis/OQ_01b_Topology_Intersect_Analysis.sql) PostgreSQL Function (_schema) Topological Analysis detects Polygons Intersects.
   <br/>**>** SELECT id, id_b, teval, eval FROM **public.OQ_01b_Topology_Intersect_Analysis(_schema)**;
 
 2. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
-[OQ_01a_Building_Analysis.sql](sql/Analysis/OQ_01a_Building_Analysis.sql) PostgreSQL Function (id, geometry, tags) -- call for each line
+[OQ_01a_Building_Analysis.sql](../sql/Analysis/OQ_01a_Building_Analysis.sql) PostgreSQL Function (id, geometry, tags) -- call for each line
   Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles.
   <br/>**>** SELECT id, tags, **public.OQ_01a_Building_Analysis(id, linestring, tags) as eval**
   FROM myosm_extract_1.ways WHERE (exist(tags, 'building')) ;
@@ -73,5 +71,3 @@ This file contains Geometry evaluation reports by OSM id for each building in th
     SELECT type_angle,  count(*) as nb_angles
     FROM tangles
     GROUP BY type_angle;
-
-
