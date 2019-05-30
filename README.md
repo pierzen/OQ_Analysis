@@ -11,7 +11,7 @@ The main functions are:
 
 **Building Analysis** 
 
-- [OQ_01_Analysis_Table_Ways_Topology.sql](https://github.com/pierzen/OQ_Analysis/blob/master/sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) Buildings irregular geometry warnings  and error flags.
+- [OQ_01_Analysis_Table_Warnings_Error_Flags.sql](https://github.com/pierzen/OQ_Analysis/blob/master/sql/Analysis/OQ_01_Analysis_Table_Warnings_Error_Flags.sql) Buildings irregular geometry warnings  and error flags.
 - [Documentation](https://github.com/pierzen/OQ_Analysis/blob/master/docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
 - see [sql/test](https://github.com/pierzen/OQ_Analysis/blob/master/sql/test) directory for more examples
 
