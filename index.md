@@ -2,10 +2,9 @@
 
 <img align="left" width="132" height="132" src="img/OQi_132.png">
 
-[About OQ_Analysis](../../blob/wiki/About)
-
+<br /><br />
 [Prerequisites & Installation](../../blob/master/docs/Installation.md)
-
+<br /><br />
 
 Main features:
 
