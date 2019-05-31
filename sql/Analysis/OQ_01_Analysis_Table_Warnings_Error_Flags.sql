@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.OQ_01_Analysis_Table_Warnings_Error_Flags.sql(
+CREATE OR REPLACE FUNCTION public.OQ_01_Analysis_Table_Warnings_Error_Flags(
 	_schema text,
 	_date_extract text,
 	_timezone text)
