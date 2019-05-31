@@ -3,6 +3,8 @@
 <img  align="left" width="132" height="132" src="img/OQi_132.png">
 <br /><br /><br /><br />
 
+<a href='https://github.com/pierzen/OQ_Analysis/tree/master/docs/Installation.md'>Prerequisites & Installation</a>
+
 [Prerequisites & Installation](https://github.com/pierzen/OQ_Analysis/tree/master/docs/Installation.md)
 
 **SQL Functions** 
