@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.OQ_01_Analysis_Table_Warnings_Error_Flags(
+CREATE OR REPLACE FUNCTION public.OQ_Analysis_Table_Warnings_Error_Flags(
 	_schema text,
 	_date_extract text,
 	_timezone text)
@@ -16,7 +16,7 @@ BEGIN
 	_timezone = quote_ident(_timezone);
 	IF _timezone<>'' THEN SET TIMEZONE='utc';
 	END IF;
-	RAISE INFO '% OQ_01_Analysis_Table_Warnings_Error_Flags(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
+	RAISE INFO '% OQ_Analysis_Table_Warnings_Error_Flags(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
 
 	cmd=format('CREATE TABLE IF NOT EXISTS %1$s.ways_warnings_error_flags  
 	(
