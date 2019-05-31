@@ -11,11 +11,13 @@ test
 
 [Prerequisites & Installation](https://github.com/pierzen/OQ_Analysis/tree/master/docs/Installation.md)
 
+<!--
 **SQL Functions** 
 - [Building Polygons Analysis](https://github.com/pierzen/OQ_Analysis/tree/master/sql/Analysis)
 - [Building Polygons Orthogonalisation](https://github.com/pierzen/OQ_Analysis/tree/master/sql/Orthogonal)
 - [General functions](https://github.com/pierzen/OQ_Analysis/tree/master/sql/commons)
-- [Samples and Tests](https://github.com/pierzen/OQ_Analysis/tree/master/sql/test)
+
+[Samples and Tests](https://github.com/pierzen/OQ_Analysis/tree/master/sql/test)
 
 [GeoJson visualisations](https://github.com/pierzen/OQ_Analysis/tree/master/sql/test/geojson)
 
@@ -25,3 +27,4 @@ OpenStreetMap Data and GeoJson visualisations ([license ODbL](https://www.openst
 
 <br /><br />
 [GNU General Public License v3.0](https://github.com/pierzen/OQ_Analysis/tree/master/LICENSE)
+-->
