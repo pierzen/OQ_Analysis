@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION public.OQ_01_Analysis_Table_Ways_Topology(
+CREATE OR REPLACE FUNCTION public.OQ_Analysis_Table_Warnings_Error_Flags(
 	_schema text,
 	_date_extract text,
 	_timezone text)
@@ -16,19 +16,19 @@ BEGIN
 	_timezone = quote_ident(_timezone);
 	IF _timezone<>'' THEN SET TIMEZONE='utc';
 	END IF;
-	RAISE INFO '% OQ_01_Analysis_Table_Ways_Topology(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
+	RAISE INFO '% OQ_Analysis_Table_Warnings_Error_Flags(%, %)',  to_char(current_timestamp, 'hh24:mi:ss'), _schema, _date_extract;
 
-	cmd=format('CREATE TABLE IF NOT EXISTS %1$s.ways_topology  
+	cmd=format('CREATE TABLE IF NOT EXISTS %1$s.ways_warnings_error_flags  
 	(
 	    id bigint NOT NULL,
 		id_b bigint, 
 	    teval text NOT NULL,
 	    eval jsonb,
-	    CONSTRAINT ways_topology_pkey PRIMARY KEY (id, id_b, teval)
+	    CONSTRAINT ways_warnings_error_flags_pkey PRIMARY KEY (id, id_b, teval)
 	);
 
 	-------------------------------------------------------------------
-	delete from %1$s.ways_topology; ', _schema, _date_extract);
+	delete from %1$s.ways_warnings_error_flags; ', _schema, _date_extract);
 	RAISE INFO '%', cmd ;
 	EXECUTE cmd;
 	RAISE INFO '% -- 1. Warning Building Forms',  to_char(current_timestamp, 'hh24:mi:ss');
@@ -55,7 +55,7 @@ BEGIN
 			'office', 'craft', 'government', 'aeroway', 'railway'])
 		then format('''{ "grptag":"%s", "flag":"1", "npoints": "%s", "type_polygon": "Area", "nb_angles": 0,
 					"angles": "{NULL}", "type_geom": "{NULL}", "poly_types_angle": "{NULL}", "l_polygon": "{NULL}" }''', 'area', ST_NPoints(linestring))::json
-		ELSE public.OQ_01a_Building_Analysis(id, linestring, tags)
+		ELSE public.OQ_Building_Analysis(id, linestring, tags)
 		END as eval
 		$$ || format(' FROM 	%1$s.ways
 		WHERE id not in (select member_id
@@ -75,7 +75,7 @@ BEGIN
 			)
 		  )
 	) 
-	$$ || format(' insert into %1$s.ways_topology (id, id_b, teval, eval) ', _schema, _date_extract) || $$ 
+	$$ || format(' insert into %1$s.ways_warnings_error_flags (id, id_b, teval, eval) ', _schema, _date_extract) || $$ 
 	select id, id_b, 
 	CASE 
 		WHEN btrim((eval->>'type_geom'), ' ') ~* ('ir|rr|qqq|qq|hh|dd|rr') then 'FB'
@@ -88,17 +88,11 @@ BEGIN
 	RAISE INFO '% -- 2 XB-XO Topological Errors',  to_char(current_timestamp, 'hh24:mi:ss');
 	----------------------------------------------------------------------------
 
-	cmd = format('INSERT INTO %1$s.ways_topology (id, id_b, teval, eval)
-	SELECT id, id_b, teval, eval FROM OQ_01b_Topology_Intersect_Analysis(''%1$s'')
+	cmd = format('INSERT INTO %1$s.ways_warnings_error_flags (id, id_b, teval, eval)
+	SELECT id, id_b, teval, eval FROM OQ_Polygon_Intersect_Analysis(''%1$s'')
 	ON CONFLICT DO NOTHING;', _schema);
 	RAISE INFO 'cmd %', cmd;
 	EXECUTE cmd;
-
-	RAISE INFO '% OQ_01_Analysis_Table_Ways_Topology Function completed, nb_recs=%',  to_char(current_timestamp, 'hh24:mi:ss'), nb_recs;
-	--cmd = format('SELECT count(*)  INTO nb_recs FROM %1$s.ways_topology;', _schema);
-	--QUERY EXECUTE cmd into nb_recs;
-	--FOR nb_recs in EXECUTE cmd 
-	--RETURN nb_recs;
 	RETURN;
 END
 $PROC$;
