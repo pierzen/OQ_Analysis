@@ -10,8 +10,8 @@ Main features:
 
 **Building Analysis** 
 
-- [SQL Irregular geometry warnings and error flags.](../../blob/master/sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql)
-- [Documentation](../../blob/master/docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
+- [SQL Irregular geometry warnings and error flags.](../../blob/master/sql/Analysis/OQ_Analysis_Table_Warnings_Error_Flags.sql)
+- [Documentation](../../blob/master/docs/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
 - [sql/test](../../blob/master/sql/test) for more examples
 
 **Orthogonal Transformations**
