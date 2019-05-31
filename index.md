@@ -5,8 +5,6 @@
 
 test
 
-<a href='https://github.com/pierzen/OQ_Analysis/tree/master/docs/Installation.md'>Prerequisites & Installation</a>
-
 [Prerequisites & Installation](OQ_Analysis/tree/master/docs/Installation.md)
 
 [Prerequisites & Installation](../tree/master/docs/Installation.md)
