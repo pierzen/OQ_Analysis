@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION OQ_Polygon_Intersect_Analysis(_schema varchar) 
+CREATE OR REPLACE FUNCTION OQ_01b_Polygon_Intersect_Analysis(_schema varchar) 
 RETURNS TABLE ( id bigint, id_b bigint, teval text, eval jsonb) 
 AS $PROC$
 DECLARE
