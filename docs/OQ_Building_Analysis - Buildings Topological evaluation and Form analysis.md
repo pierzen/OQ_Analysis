@@ -1,27 +1,26 @@
-## OQ_01_Building_Analysis - Buildings Topological evaluation and Form analysis 
+## OQ_Building_Analysis - Buildings Topological evaluation and Form analysis 
 
 Building Quality Studies on the [OpenDatalabRDC Blog](https://opendatalabrdc.github.io/Blog/#!index.md) are examples of spatial data analysis that can be made from this library.
 
-[OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql) is the Main Script for OQ_01_Analysis. 
-This Script adds schema.ways_topology table with the Warnings and Topological Errors for each way. This is the main Script the call other scripts for the various functions to prepare the table. 
+[OQ_Analysis_Table_Warnings_Error_Flags.sql](../sql/Analysis/OQ_Analysis_Table_Warnings_Error_Flags.sql) analyses Building polygons validity and geometry. The Function creates schema.ways_warnings_error_flags table with Geometry Analysis, Warning and Error messages for each way.
 
 Two types of analysis are performed over each building polygon.
 1. Form Analysis classifies each polygon and individual angles for the following categories (teval=FB for Geometry Warnings)
-[OQ_01b_Topology_Intersect_Analysis.sql](../sql/Analysis/OQ_01b_Topology_Intersect_Analysis.sql) PostgreSQL Function (_schema) Topological Analysis detects Polygons Intersects.
-  <br/>**>** SELECT id, id_b, teval, eval FROM **public.OQ_01b_Topology_Intersect_Analysis(_schema)**;
+[OQ_Polygon_Intersect_Analysis.sql](../sql/Analysis/OQ_Polygon_Intersect_Analysis.sql) PostgreSQL Function (_schema) Topological Analysis detects Polygons Intersects.
+  <br/>**>** SELECT id, id_b, teval, eval FROM **public.OQ_Polygon_Intersect_Analysis(_schema)**;
 
 2. Topological analysis indicates invalid and open polygon, overlaps, self-overlap (teval= [XB|XO])
-[OQ_01a_Building_Analysis.sql](../sql/Analysis/OQ_01a_Building_Analysis.sql) PostgreSQL Function (id, geometry, tags) -- call for each line
+[OQ_Building_Analysis.sql](../sql/Analysis/OQ_Building_Analysis.sql) PostgreSQL Function (id, geometry, tags) -- call for each line
   Determines orthogonal and irregular polygons. Function applied on each row returns the Eval Json result list with metrics about the polygon and the various angles.
-  <br/>**>** SELECT id, tags, **public.OQ_01a_Building_Analysis(id, linestring, tags) as eval**
+  <br/>**>** SELECT id, tags, **public.OQ_Building_Analysis(id, linestring, tags) as eval**
   FROM myosm_extract_1.ways WHERE (exist(tags, 'building')) ;
 
-For the variables description, see [OQ_01_Analysis Documentation Variables](OQ_Analysis%20Variables%20Documentation.md).
+For the variables description, see [OQ_Analysis Documentation Variables](OQ_Analysis%20Variables%20Documentation.md).
 
 **SQL Query**
 
-    	-- public.OQ_01_Analysis_Table_Ways_Topology(_schema text,_date_extract)
-	SELECT * from public.OQ_01_Analysis_Table_Ways_Topology('myosm_extract_1', '2018_08_27', '')
+    	-- public.OQ_Analysis_Table_Warnings_Error_Flags(_schema text,_date_extract)
+	SELECT * from public.OQ_Analysis_Table_Warnings_Error_Flags('myosm_extract_1', '2018_08_27', '')
 
 **Output: OSM ways_topology Table** ( id bigint NOT NULL, id_b bigint, teval text, eval jsonb)
 
@@ -40,15 +39,15 @@ This file contains Geometry evaluation reports by OSM id for each building in th
 - id refers to the building analyzed
 - id_b refers to a second polygon (either building or other feature) in conflict with the id building.
 
- **OSM database query using OQ_01a_Building_Analysis Function:**
+ **OSM database query using OQ_Building_Analysis Function:**
  
- [OQ_01a_Building_Analysis.sql](../sql/Analysis/OQ_01a_Building_Analysis.sql) is called by 
- [OQ_01_Analysis_Table_Ways_Topology.sql](../sql/Analysis/OQ_01_Analysis_Table_Ways_Topology.sql)
+ [OQ_Building_Analysis.sql](../sql/Analysis/OQ_Building_Analysis.sql) is called by 
+ [OQ_Polygon_Intersect_Analysis.sql](../sql/Analysis/OQ_Polygon_Intersect_Analysis.sql)
  but can also be run independtly like in the example below.
  
     CREATE temporary table temp_buildings AS 
     SELECT id, tags, 
-    public.OQ_01a_Building_Analysis(id, linestring, tags) as eval
+    public.OQ_Building_Analysis(id, linestring, tags) as eval
     FROM myosm_extract_1.ways
     WHERE (exist(tags, 'building')) ;
     	
