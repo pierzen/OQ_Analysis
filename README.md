@@ -11,8 +11,8 @@ The main functions are:
 
 **Building Analysis** 
 
-- [OQ_01_Analysis_Table_Warnings_Error_Flags.sql](sql/Analysis/OQ_01_Analysis_Table_Warnings_Error_Flags.sql) Buildings irregular geometry warnings  and error flags.
-- [Documentation](docs/OQ_01_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
+- [OQ_Analysis_Table_Warnings_Error_Flags.sql](sql/Analysis/OQ_Analysis_Table_Warnings_Error_Flags.sql) Buildings irregular geometry warnings  and error flags.
+- [Documentation](docs/OQ_Building_Analysis%20-%20Buildings%20Topological%20evaluation%20and%20Form%20analysis.md)
 - see [sql/test](sql/test) directory for more examples
 
 **Orthogonal Transformations**
